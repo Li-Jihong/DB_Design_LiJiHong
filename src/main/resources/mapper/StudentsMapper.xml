@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingge.springboot.mapper.StudentsMapper">
+
+    <resultMap id="StudentResultMap" type="com.qingge.springboot.entity.Student">
+        <result column="studentid" property="studentid" />
+        <result column="name" property="name" />
+        <result column="age" property="age" />
+        <result column="gender" property="gender" />
+        <result column="ethnicity" property="ethnicity" />
+        <result column="political_status" property="political_status" />
+        <result column="position" property="position" />
+        <result column="classid" property="classid" />
+        <result column="dormitoryid" property="dormitoryid" />
+    </resultMap>
+    <insert id="insertStudent" parameterType="java.lang.Integer">
+        INSERT INTO DB_DESIGN.STUDENTS (student_id, name, age, gender, ethnicity, political_status, position, class_id, dormitory_id)
+        VALUES (#{studentid}, #{name}, #{age}, #{gender}, #{ethnicity}, #{political_status}, #{position}, #{classid}, #{dormitoryid})
+    </insert>
+    <update id="updateStudent" parameterType="java.lang.Integer">
+        UPDATE DB_DESIGN.STUDENTS
+        SET student_id = #{studentid},
+            name = #{name},
+            age = #{age},
+            gender = #{gender},
+            ethnicity = #{ethnicity},
+            political_status = #{politicalstatus},
+            position = #{position},
+            class_id = #{classid},
+            dormitory_id = #{dormitoryid}
+        WHERE student_id = #{studentid}
+    </update>
+
+    <delete id="deleteStudent" parameterType="java.lang.Integer">
+        DELETE FROM DB_DESIGN.STUDENTS
+        WHERE student_id = #{studentid}
+    </delete>
+    <select id="findPage" resultType="com.qingge.springboot.entity.Student">
+        SELECT student_id AS studentid,
+               name,
+               age,
+               gender,
+               ethnicity,
+               political_status AS politicalstatus,
+               position,
+               class_id AS classid,
+               dormitory_id AS dormitoryid
+        FROM DB_DESIGN.STUDENTS
+        <where>
+            <if test="studentId != null and studentId != ''">
+                and studentid LIKE CONCAT('%', #{studentId}, '%')
+            </if>
+        </where>
+    </select>
+
+
+
+</mapper>

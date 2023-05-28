@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingge.springboot.mapper.ClassLeaderMapper">
+
+    <resultMap id="ClassLeaderResultMap" type="com.qingge.springboot.entity.ClassLeader">
+        <result column="leaderid" property="leaderid" />
+        <result column="name" property="name" />
+        <result column="position" property="position" />
+        <result column="studentid" property="studentid" />
+        <result column="classid" property="classid" />
+    </resultMap>
+    <insert id="insertClassLeader" parameterType="java.lang.Integer">
+        INSERT INTO DB_DESIGN.ClassLeader (leader_id, name, position, student_id, class_id)
+        VALUES (#{leaderid}, #{name}, #{position}, #{studentid}, #{classid})
+    </insert>
+    <update id="updateClassLeader" parameterType="java.lang.Integer">
+        UPDATE DB_DESIGN.ClassLeader
+        SET leader_id = #{leaderid},
+            name = #{name},
+            position = #{position},
+            student_id = #{studentid},
+            class_id = #{classid}
+        WHERE student_id = #{studentid}
+    </update>
+
+    <delete id="deleteClassLeader" parameterType="java.lang.Integer">
+        DELETE FROM DB_DESIGN.ClassLeader
+        WHERE student_id = #{studentid}
+    </delete>
+    <select id="findPage" resultType="com.qingge.springboot.entity.ClassLeader">
+        SELECT leader_id AS leaderid,
+        name,
+        position,
+        student_id AS studentid,
+        class_id AS classid,
+
+        FROM DB_DESIGN.ClassLeader
+        <where>
+            <if test="studentId != null and studentId != ''">
+                and studentid LIKE CONCAT('%', #{studentId}, '%')
+            </if>
+        </where>
+    </select>
+
+
+
+</mapper>

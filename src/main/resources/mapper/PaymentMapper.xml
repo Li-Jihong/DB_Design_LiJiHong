@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingge.springboot.mapper.PaymentMapper">
+
+    <resultMap id="ClassLeaderResultMap" type="com.qingge.springboot.entity.Payment">
+        <result column="paymentid" property="paymentid" />
+        <result column="classid" property="classid" />
+        <result column="studentid" property="studentid" />
+        <result column="paymentamount" property="paymentamount" />
+        <result column="paymentdate" property="paymentdate" />
+    </resultMap>
+    <insert id="insertPayment" parameterType="java.lang.Integer">
+        INSERT INTO DB_DESIGN.Payment (paymentid, classid, studentid, paymentamount, paymentdate)
+        VALUES (#{paymentid}, #{classid}, #{studentid}, #{paymentamount}, #{paymentdate})
+    </insert>
+    <update id="updatePayment" parameterType="java.lang.Integer">
+        UPDATE DB_DESIGN.Payment
+        SET paymentid = #{paymentid},
+            classid = #{classid},
+            studentid = #{studentid},
+            paymentamount = #{paymentamount},
+            paymentdate = #{paymentdate}
+        WHERE studentid = #{studentid}
+    </update>
+
+    <delete id="deletePayment" parameterType="java.lang.Integer">
+        DELETE FROM DB_DESIGN.Payment
+        WHERE studentid = #{studentid}
+    </delete>
+    <select id="findPage" resultType="com.qingge.springboot.entity.Payment">
+        SELECT paymentid,
+        classid,
+        studentid,
+        paymentamount,
+        paymentdate,
+        FROM DB_DESIGN.Payment
+        <where>
+            <if test="STUDENT_ID != null and STUDENT_ID != ''">
+                and studentid LIKE CONCAT('%', #{studentid}, '%')
+            </if>
+        </where>
+    </select>
+
+
+
+</mapper>

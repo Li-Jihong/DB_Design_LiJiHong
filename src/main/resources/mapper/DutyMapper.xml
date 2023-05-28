@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingge.springboot.mapper.DutyMapper">
+
+    <resultMap id="ClassLeaderResultMap" type="com.qingge.springboot.entity.Duty">
+        <result column="dutyid" property="dutyid" />
+        <result column="classid" property="classid" />
+        <result column="date" property="date" />
+        <result column="description" property="description" />
+    </resultMap>
+    <insert id="insertDuty" parameterType="java.lang.Integer">
+        INSERT INTO DB_DESIGN.DUTY (dutyid, classid, date, description)
+        VALUES (#{dutyid}, #{classid}, #{date}, #{description})
+    </insert>
+    <update id="updateDuty" parameterType="java.lang.Integer">
+        UPDATE DB_DESIGN.DUTY
+        SET dutyid = #{dutyid},
+            classid = #{classid},
+            date = #{date},
+            description = #{description}
+        WHERE dutyid = #{dutyid}
+    </update>
+
+    <delete id="deleteDuty" parameterType="java.lang.Integer">
+        DELETE FROM DB_DESIGN.DUTY
+        WHERE dutyid = #{dutyid}
+    </delete>
+    <select id="findPage" resultType="com.qingge.springboot.entity.Duty">
+        SELECT dutyid,
+        studentid
+        FROM DB_DESIGN.DUTY
+        <where>
+            <if test="dutyid != null and dutyid != ''">
+                and dutyid LIKE CONCAT('%', #{dutyid}, '%')
+            </if>
+        </where>
+    </select>
+</mapper>
